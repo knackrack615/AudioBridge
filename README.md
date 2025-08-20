@@ -40,8 +40,8 @@ You can configure the mod through Resonite's RML settings menu:
 
 - **Enable audio sharing**: Toggle the audio bridge on/off
 - **Mute target**: Choose which process to mute
-  - `Host` - Mutes the Host process (game audio only plays through Renderer)
-  - `Renderer` - Mutes the Renderer process (default, avoids double audio)
+  - `Host` - Mutes the Host process (default, avoids double audio)
+  - `Renderer` - Mutes the Renderer process (you'll hear audio from host, default game behaviour)
   - `None` - No muting (you'll hear audio from both processes)
 
 ## How it works
