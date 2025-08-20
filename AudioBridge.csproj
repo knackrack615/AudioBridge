@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<RootNamespace>AudioBridge</RootNamespace>
+		<AssemblyName>AudioBridge</AssemblyName>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<TargetFramework>net9.0</TargetFramework>
+		<FileAlignment>512</FileAlignment>
+		<LangVersion>10.0</LangVersion>
+		<Nullable>disable</Nullable>
+		<Deterministic>true</Deterministic>
+		<!-- Change CopyToMods to true if you'd like builds to be moved into the Mods folder automatically-->
+		<CopyToMods Condition="'$(CopyToMods)'==''">true</CopyToMods>
+		<DebugType Condition="'$(Configuration)'=='Debug'">embedded</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(GamePath)'==''">
+		<!-- If you don't want to provide a GamePath in dotnet build, you can specify one here -->
+		<GamePath>$(MSBuildThisFileDirectory)Resonite/</GamePath>
+		<GamePath Condition="Exists('/mnt/c/Program Files (x86)/Steam/steamapps/common/Resonite/')">/mnt/c/Program Files (x86)/Steam/steamapps/common/Resonite/</GamePath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="ResoniteModLoader">
+		    <HintPath>$(GamePath)Libraries\ResoniteModLoader.dll</HintPath>
+		    <Private>False</Private>
+		</Reference>
+		<Reference Include="HarmonyLib">
+		    <HintPath>$(GamePath)rml_libs\0Harmony.dll</HintPath>
+			<HintPath Condition="Exists('$(GamePath)Libraries\0Harmony.dll')">$(GamePath)Libraries\0Harmony.dll</HintPath>
+			<HintPath Condition="Exists('$(GamePath)MonkeyLoader\0Harmony.dll')">$(GamePath)MonkeyLoader\0Harmony.dll</HintPath>
+		    <HintPath Condition="Exists('$(GamePath)0Harmony.dll')">$(GamePath)0Harmony.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="FrooxEngine">
+		    <HintPath>$(GamePath)FrooxEngine.dll</HintPath>
+		    <Private>False</Private>
+		</Reference>
+		<Reference Include="Awwdio">
+		    <HintPath>$(GamePath)Awwdio.dll</HintPath>
+		    <Private>False</Private>
+		</Reference>
+		<Reference Include="CSCore">
+		    <HintPath>$(GamePath)CSCore.dll</HintPath>
+		    <Private>False</Private>
+		</Reference>
+		<Reference Include="System.Memory">
+		    <HintPath>$(GamePath)\Renderer\Renderite.Renderer_Data\Managed\System.Memory.dll</HintPath>
+		    <Private>False</Private>
+		</Reference>
+		<Reference Include="Elements.Assets">
+			<HintPath>$(GamePath)Elements.Assets.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Elements.Core">
+			<HintPath>$(GamePath)Elements.Core.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="SkyFrost.Base">
+			<HintPath>$(GamePath)SkyFrost.Base.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="SkyFrost.Base.Models">
+			<HintPath>$(GamePath)SkyFrost.Base.Models.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Compile Remove="**/*.cs" />
+		<Compile Include="AudioBridge.cs" />
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CopyToMods)'=='true'">
+		<Message Text="Copying AudioBridge.dll to $(GamePath)rml_mods" Importance="high" />
+		<Copy SourceFiles="$(TargetDir)$(TargetFileName)" DestinationFolder="$(GamePath)rml_mods" ContinueOnError="true" />
+	</Target>
+</Project>

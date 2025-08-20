@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>AudioBridgeRenderer</AssemblyName>
+    <RootNamespace>AudioBridge.Renderer</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="**/*.cs" />
+    <Compile Include="AudioBridgeRenderer.cs" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(GamePath)'==''">
+    <GamePath>/mnt/c/Program Files (x86)/Steam/steamapps/common/Resonite/</GamePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- BepInEx 5 -->
+    <Reference Include="BepInEx">
+      <HintPath>$(GamePath)Renderer/BepInEx/core/BepInEx.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    
+    <!-- Unity -->
+    <Reference Include="UnityEngine">
+      <HintPath>$(GamePath)Renderer/Renderite.Renderer_Data/Managed/UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GamePath)Renderer/Renderite.Renderer_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    
+    <!-- CSCore (copy to plugin folder) -->
+    <Reference Include="CSCore">
+      <HintPath>$(GamePath)CSCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
