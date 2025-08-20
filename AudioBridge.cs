@@ -36,10 +36,10 @@ public class AudioBridge : ResoniteMod
     
     [AutoRegisterConfigKey]
     private static readonly ModConfigurationKey<MuteTarget> MUTE_TARGET =
-        new("muteTarget", "Which process to mute (prevents double audio)?", () => MuteTarget.Renderer);
+        new("muteTarget", "Which process to mute (prevents double audio)?", () => MuteTarget.Host);
 
     private static ModConfiguration _config;
-    private static MuteTarget _currentMuteTarget = MuteTarget.Renderer;
+    private static MuteTarget _currentMuteTarget = MuteTarget.Host;
     private static bool _isEnabled = false;
 
     public override void OnEngineInit()
