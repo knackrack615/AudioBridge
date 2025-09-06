@@ -1,5 +1,9 @@
 # AudioBridge
 
+# WARNING: This mod is currently broken
+While installing the mod wont cause any harm, it will not work as intended, please wait while I work on a fix (Mod is done, just working on Thunderstore Renderer patching support / dependency auto-install)
+
+---
 A Resonite mod that bridges audio from the Host process to the Renderer process, enabling audio capture for streaming and recording software like OBS / Discord.
 
 ## What it does
