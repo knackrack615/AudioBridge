@@ -68,7 +68,7 @@ The mod uses:
 
 ## Requirements
 
-- Resonite with ResoniteModLoader
+- Resonite with BepisLoader
 - BepInEx 5.4.23.3 or compatible version
 - Windows (uses Windows-specific memory-mapped file APIs)
 - .NET Framework 4.7.2 (for Renderer plugin)
