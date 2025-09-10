@@ -1,10 +1,7 @@
-# AudioBridge
+# ResoniteAudioBridge
+[![Thunderstore Badge](https://gist.githubusercontent.com/art0007i/c4871bbdb30d31e7899328754916bb81/raw/076910e4939e624f17c88bd879770d3bd2fe3f1e/available-on-thunderstore.svg)](https://thunderstore.io/c/resonite/)
 
-# WARNING: This mod is currently broken
-While installing the mod wont cause any harm, it will not work as intended, please wait while I work on a fix (Mod is done, just working on Thunderstore Renderer patching support / dependency auto-install)
-
----
-A Resonite mod that bridges audio from the Host process to the Renderer process, enabling audio capture for streaming and recording software like OBS / Discord.
+A Resonite mod that bridges audio from the Host process to the Renderer process, enabling audio capture for streaming and recording software like OBS/Discord.
 
 ## What it does
 
@@ -26,27 +23,24 @@ ResoniteAudioBridge solves this by:
 
 ## Installation
 
-1. Download `AudioBridge.dll` and `AudioBridgeRenderer.dll` from the [Releases](https://github.com/knackrack615/AudioBridge/releases) page
+1. Download `HGCommunity-AudioBridge-2.0.0.zip` from the [Releases](https://github.com/knackrack615/ResoniteAudioBridge/releases) page
 
-2. Drop `AudioBridge.dll` in `Resonite\rml_mods`
+2. Download & Extract [BepInEx](https://github.com/BepInEx/BepInEx/releases/download/v5.4.23.3/BepInEx_win_x64_5.4.23.3.zip) into `Resonite\Renderer`
 
-3. Download & Extract [BepInEx](https://github.com/BepInEx/BepInEx/releases/download/v5.4.23.3/BepInEx_win_x64_5.4.23.3.zip) into `Resonite\Renderer`
+3. Extract the contents of `HGCommunity-AudioBridge-2.0.0.zip` to their respective directories.
 
-4. Drop `AudioBridgeRenderer.dll` & `CSCore.dll` at `Resonite\Renderer\BepInEx\plugins`  
-   (If the folder doesn't exist, create it)  
-   (CSCore.dll can be found in the root of Resonite)
-
-5. Done! Launch the game, audio should be coming out of both the Renderer & Host
+4. Done! Launch the game, audio should be coming out of the Renderer process (by default, configurable)
 
 ## Configuration
 
-You can configure the mod through Resonite's RML settings menu:
+You can configure the mod through the BepisModSettings menu:
 
 - **Enable audio sharing**: Toggle the audio bridge on/off
 - **Mute target**: Choose which process to mute
-  - `Host` - Mutes the Host process (default, avoids double audio)
-  - `Renderer` - Mutes the Renderer process (you'll hear audio from host, default game behaviour)
   - `None` - No muting (you'll hear audio from both processes)
+  - `Host` - Mutes the Host process (game audio only plays through Renderer)
+  - `Renderer` - Mutes the Renderer process (default, avoids double audio)
+**Debug Logging**: Prints debugging information to the Resonite logs to help diagnose issues.
 
 ## How it works
 
@@ -61,7 +55,7 @@ The mod uses:
 ### No audio in Renderer
 - Make sure BepInEx is properly installed in the Renderer folder
 - Check that all DLLs are in the correct locations
-- Verify the mod is enabled in RML settings
+- Verify the mod is enabled in BepisModSettings
 
 ### Audio delay or stuttering
 - The mod automatically syncs audio when toggling - if you experience delays, try toggling it off and on again
@@ -69,7 +63,7 @@ The mod uses:
 - Ensure no other software is interfering with audio processing
 
 ### Double audio
-- Change the "Mute target" setting in RML to either `Host` or `Renderer`
+- Change the "Mute target" setting in BepisModSettings to either `Host` or `Renderer`
 - The default is `Renderer` which should prevent double audio
 
 ## Requirements
@@ -77,19 +71,36 @@ The mod uses:
 - Resonite with ResoniteModLoader
 - BepInEx 5.4.23.3 or compatible version
 - Windows (uses Windows-specific memory-mapped file APIs)
+- .NET Framework 4.7.2 (for Renderer plugin)
+- .NET 9.0 (for Host mod)
+
+## Technical Details
+
+### Audio Formats Supported
+- 16-bit PCM
+- 24-bit PCM  
+- 32-bit float (IeeeFloat)
+- All standard sample rates (44.1kHz, 48kHz, etc.)
+- Mono, stereo, and multi-channel configurations
 
 ### Performance
 - Shared memory buffer: 2MB ring buffer
 - Latency: 20ms (configurable in WasapiOut initialization)
 - Memory-mapped file size: ~2MB + 64 bytes header
 
+## License
+
+SPDX-License-Identifier: AGPL-3.0-or-later WITH LICENSE-ATTRIBUTION
+
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE) with [attribution term](LICENSE-ATTRIBUTION).
+
 ## Credits
 
 - **Author**: Knackrack615
-- **Version**: 1.0.0
+- **Version**: 2.0.0
 - **License**: MIT
 
 ## Links
 
-- [GitHub Repository](https://github.com/knackrack615/AudioBridge/)
-- [Issues & Bug Reports](https://github.com/knackrack615/AudioBridge/issues)
+- [GitHub Repository](https://github.com/knackrack615/ResoniteAudioBridge/)
+- [Issues & Bug Reports](https://github.com/knackrack615/ResoniteAudioBridge/issues)

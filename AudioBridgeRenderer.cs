@@ -128,13 +128,31 @@ namespace AudioBridge.Renderer
                     
                     var (sampleRate, channels) = _busReader.GetFormat();
                     Debug.Log($"[AudioBridge.Renderer] Audio format: {sampleRate}Hz, {channels} channels");
-                // Create audio source
-                var audioSource = new ShadowAudioSource(_busReader, sampleRate, channels);
-                
-                // Initialize audio output with minimal latency (20ms)
-                _audioOut = new WasapiOut(false, AudioClientShareMode.Shared, 20);
-                _audioOut.Initialize(audioSource.ToWaveSource());
-                _audioOut.Play();
+                    
+                    // Read SessionID from shared memory
+                    string sessionId = _busReader.GetSessionId();
+                    Debug.Log($"[AudioBridge.Renderer] Using SessionID: {sessionId ?? "none"}");
+                    
+                    // Create audio source
+                    var audioSource = new ShadowAudioSource(_busReader, sampleRate, channels);
+                    
+                    // Initialize audio output with SessionID if available
+                    if (!string.IsNullOrEmpty(sessionId) && Guid.TryParse(sessionId, out Guid sessionGuid))
+                    {
+                        // Use the same SessionID but with crossProcessSession: false to maintain separate control
+                        // This groups them in Windows but keeps them as separate audio sessions for muting
+                        _audioOut = new WasapiOut(false, AudioClientShareMode.Shared, 20, sessionGuid, false);
+                        Debug.Log($"[AudioBridge.Renderer] Created WasapiOut with SessionID: {sessionGuid} (crossProcess: false for independent muting)");
+                    }
+                    else
+                    {
+                        // Fallback to default if no SessionID
+                        _audioOut = new WasapiOut(false, AudioClientShareMode.Shared, 20);
+                        Debug.Log("[AudioBridge.Renderer] Created WasapiOut without SessionID (legacy mode)");
+                    }
+                    
+                    _audioOut.Initialize(audioSource.ToWaveSource());
+                    _audioOut.Play();
                 
                 Debug.Log("[AudioBridge.Renderer] Audio playback started");
                 
@@ -344,6 +362,26 @@ namespace AudioBridge.Renderer
                 int sr = _view.ReadInt32(8);
                 int ch = _view.ReadInt32(12);
                 return (sr > 0 ? sr : 48000, ch > 0 ? ch : 2);
+            }
+            finally { _mutex.ReleaseMutex(); }
+        }
+        
+        public string GetSessionId()
+        {
+            if (_mutex == null || _view == null) return null;
+            
+            _mutex.WaitOne();
+            try
+            {
+                byte[] sessionBytes = new byte[36];
+                _view.ReadArray(24, sessionBytes, 0, 36);
+                
+                // Find null terminator
+                int length = Array.IndexOf(sessionBytes, (byte)0);
+                if (length == -1) length = 36;
+                if (length == 0) return null;
+                
+                return System.Text.Encoding.ASCII.GetString(sessionBytes, 0, length);
             }
             finally { _mutex.ReleaseMutex(); }
         }

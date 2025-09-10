@@ -24,6 +24,12 @@
       <Private>False</Private>
     </Reference>
     
+    <!-- Harmony -->
+    <Reference Include="0Harmony">
+      <HintPath>$(GamePath)Renderer/BepInEx/core/0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    
     <!-- Unity -->
     <Reference Include="UnityEngine">
       <HintPath>$(GamePath)Renderer/Renderite.Renderer_Data/Managed/UnityEngine.dll</HintPath>
