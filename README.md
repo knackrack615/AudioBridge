@@ -102,5 +102,5 @@ This project is licensed under the [GNU Affero General Public License v3.0](LICE
 
 ## Links
 
-- [GitHub Repository](https://github.com/knackrack615/ResoniteAudioBridge/)
-- [Issues & Bug Reports](https://github.com/knackrack615/ResoniteAudioBridge/issues)
+- [GitHub Repository](https://github.com/knackrack615/AudioBridge/)
+- [Issues & Bug Reports](https://github.com/knackrack615/AudioBridge/issues)
