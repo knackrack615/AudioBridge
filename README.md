@@ -40,7 +40,7 @@ You can configure the mod through the BepisModSettings menu:
   - `None` - No muting (you'll hear audio from both processes)
   - `Host` - Mutes the Host process (game audio only plays through Renderer)
   - `Renderer` - Mutes the Renderer process (default, avoids double audio)
-**Debug Logging**: Prints debugging information to the Resonite logs to help diagnose issues.
+- **Debug Logging**: Prints debugging information to the Resonite logs to help diagnose issues.
 
 ## How it works
 
