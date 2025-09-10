@@ -98,7 +98,7 @@ This project is licensed under the [GNU Affero General Public License v3.0](LICE
 
 - **Author**: Knackrack615
 - **Version**: 2.0.0
-- **License**: MIT
+- **License**: GNU Affero General Public License v3.0
 
 ## Links
 
